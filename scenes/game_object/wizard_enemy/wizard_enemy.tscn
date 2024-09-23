@@ -1,0 +1,211 @@
+[gd_scene load_steps=22 format=3 uid="uid://sgyv7yc5ji6s"]
+
+[ext_resource type="Texture2D" uid="uid://cnj5n2cqfpiof" path="res://scenes/game_object/wizard_enemy/wizard_enemy.png" id="1_5b7d4"]
+[ext_resource type="Script" path="res://scenes/game_object/wizard_enemy/wizard_enemy.gd" id="1_bxo04"]
+[ext_resource type="PackedScene" uid="uid://bmaqqbikddkys" path="res://scenes/component/health_component.tscn" id="1_e4ycw"]
+[ext_resource type="PackedScene" uid="uid://dnc0r1dovkt1o" path="res://scenes/component/velocity_component.tscn" id="2_484xm"]
+[ext_resource type="PackedScene" uid="uid://blogbj3g217vt" path="res://scenes/component/death_component.tscn" id="2_qaloo"]
+[ext_resource type="PackedScene" uid="uid://ofl845nwc56w" path="res://scenes/component/hurtbox_component.tscn" id="3_w1dnw"]
+[ext_resource type="PackedScene" uid="uid://2be0dg7afh4d" path="res://scenes/component/hit_flash_component.tscn" id="4_44rxg"]
+[ext_resource type="PackedScene" uid="uid://cqmjfriwipu8t" path="res://scenes/component/vial_drop_component.tscn" id="5_t4iap"]
+[ext_resource type="AudioStream" uid="uid://dxhj2s34bn58v" path="res://assets/audio/footstep_carpet_000.ogg" id="7_dgujl"]
+[ext_resource type="AudioStream" uid="uid://c8iftkmgi7ydq" path="res://assets/audio/footstep_carpet_001.ogg" id="8_2f6um"]
+[ext_resource type="AudioStream" uid="uid://dx43yool8lw4k" path="res://assets/audio/footstep_carpet_002.ogg" id="9_t3tyi"]
+[ext_resource type="AudioStream" uid="uid://b6rergyt1tsfu" path="res://assets/audio/footstep_carpet_003.ogg" id="10_fk4p4"]
+[ext_resource type="AudioStream" uid="uid://co5s6t4ohx8cx" path="res://assets/audio/footstep_carpet_004.ogg" id="11_ctb0w"]
+
+[sub_resource type="Animation" id="Animation_17efp"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Visuals/Sprite2D:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Visuals/Sprite2D:rotation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Visuals/Sprite2D:scale")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(1, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_kn27l"]
+resource_name = "walk"
+length = 0.4
+loop_mode = 1
+step = 0.05
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Visuals/Sprite2D:position")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Visuals/Sprite2D:rotation")
+tracks/1/interp = 2
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.3),
+"transitions": PackedFloat32Array(1.7411, 3.86374, 1),
+"update": 0,
+"values": [0.0, -0.174533, 0.261799]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Visuals/Sprite2D:scale")
+tracks/2/interp = 2
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3),
+"transitions": PackedFloat32Array(1, 1, 2.07053, 1),
+"update": 0,
+"values": [Vector2(1, 1), Vector2(1, 1), Vector2(1.5, 0.8), Vector2(0.9, 1.1)]
+}
+tracks/3/type = "method"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath(".")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0.05, 0.3),
+"transitions": PackedFloat32Array(1, 1),
+"values": [{
+"args": [true],
+"method": &"set_is_moving"
+}, {
+"args": [false],
+"method": &"set_is_moving"
+}]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_23sgb"]
+_data = {
+"RESET": SubResource("Animation_17efp"),
+"walk": SubResource("Animation_kn27l")
+}
+
+[sub_resource type="Shader" id="Shader_u7fyh"]
+resource_local_to_scene = true
+code = "shader_type canvas_item;
+
+// a uniform is a variable we can set from outside the shader.
+// hint_range clamps the value between two numbers IN THE EDITOR (could still exceed in code)
+uniform float lerp_percent : hint_range(0.0, 1.0);
+
+void fragment() { // Called for every pixel the material is visible on.
+	// set the type (vec4) before declaring the variable
+	// texture_color is getting the current colour of the pixel.
+	vec4 texture_color = texture(TEXTURE, UV); // TEXTURE is a const that stores the texture. UV is a const that gets the coordinates of the current pixel
+	// mix is like lerp(). We move from the texture_color to white (taking the pixel's own alpha color so that the transparent background doesn't go white.
+	vec4 final_color = mix(texture_color, vec4(1.0, 1.0, 1.0, texture_color.a), lerp_percent);
+
+	COLOR = final_color;
+}
+"
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_ici8i"]
+resource_local_to_scene = true
+shader = SubResource("Shader_u7fyh")
+shader_parameter/lerp_percent = 0.0
+
+[sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_51eqd"]
+streams_count = 5
+stream_0/stream = ExtResource("7_dgujl")
+stream_1/stream = ExtResource("8_2f6um")
+stream_2/stream = ExtResource("9_t3tyi")
+stream_3/stream = ExtResource("10_fk4p4")
+stream_4/stream = ExtResource("11_ctb0w")
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_pm2nk"]
+radius = 8.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_0hmhx"]
+radius = 4.0
+
+[node name="WizardEnemy" type="CharacterBody2D" groups=["enemy"]]
+collision_layer = 8
+collision_mask = 9
+script = ExtResource("1_bxo04")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_23sgb")
+}
+autoplay = "walk"
+
+[node name="HealthComponent" parent="." instance=ExtResource("1_e4ycw")]
+max_health = 20.0
+
+[node name="VelocityComponent" parent="." instance=ExtResource("2_484xm")]
+max_speed = 60
+acceleration = 20.0
+
+[node name="HitFlashComponent" parent="." node_paths=PackedStringArray("health_component", "sprite") instance=ExtResource("4_44rxg")]
+health_component = NodePath("../HealthComponent")
+sprite = NodePath("../Visuals/Sprite2D")
+hit_flash_material = SubResource("ShaderMaterial_ici8i")
+
+[node name="VialDropComponent" parent="." node_paths=PackedStringArray("health_component") instance=ExtResource("5_t4iap")]
+health_component = NodePath("../HealthComponent")
+
+[node name="DeathComponent" parent="." node_paths=PackedStringArray("health_component", "sprite") instance=ExtResource("2_qaloo")]
+health_component = NodePath("../HealthComponent")
+sprite = NodePath("../Visuals/Sprite2D")
+
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
+stream = SubResource("AudioStreamRandomizer_51eqd")
+max_distance = 300.0
+bus = &"sfx"
+
+[node name="Visuals" type="Node2D" parent="."]
+
+[node name="Sprite2D" type="Sprite2D" parent="Visuals"]
+texture = ExtResource("1_5b7d4")
+offset = Vector2(0, -8)
+
+[node name="HurtboxComponent" parent="." node_paths=PackedStringArray("health_component") instance=ExtResource("3_w1dnw")]
+visible = false
+health_component = NodePath("../HealthComponent")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HurtboxComponent"]
+position = Vector2(0, -7)
+shape = SubResource("CircleShape2D_pm2nk")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+visible = false
+position = Vector2(0, -4)
+shape = SubResource("CircleShape2D_0hmhx")

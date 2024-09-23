@@ -1,0 +1,24 @@
+[gd_scene load_steps=8 format=3 uid="uid://dxyitbtdmy8el"]
+
+[ext_resource type="Script" path="res://scenes/manager/experience_manager.gd" id="1_7jhhr"]
+[ext_resource type="AudioStream" uid="uid://e82wfvj4nm1" path="res://assets/audio/impactGeneric_light_000.ogg" id="2_d5pk7"]
+[ext_resource type="AudioStream" uid="uid://bc7ol3diq6xp2" path="res://assets/audio/impactGeneric_light_001.ogg" id="3_ldnau"]
+[ext_resource type="AudioStream" uid="uid://hfcpa673sa4y" path="res://assets/audio/impactGeneric_light_002.ogg" id="4_qobrh"]
+[ext_resource type="AudioStream" uid="uid://cw5h12ne5mag7" path="res://assets/audio/impactGeneric_light_003.ogg" id="5_j14rr"]
+[ext_resource type="AudioStream" uid="uid://ve20ftqeymkf" path="res://assets/audio/impactGeneric_light_004.ogg" id="6_utsef"]
+
+[sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_h3f5v"]
+random_pitch = 1.2
+streams_count = 5
+stream_0/stream = ExtResource("2_d5pk7")
+stream_1/stream = ExtResource("3_ldnau")
+stream_2/stream = ExtResource("4_qobrh")
+stream_3/stream = ExtResource("5_j14rr")
+stream_4/stream = ExtResource("6_utsef")
+
+[node name="ExperienceManager" type="Node"]
+script = ExtResource("1_7jhhr")
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+stream = SubResource("AudioStreamRandomizer_h3f5v")
+bus = &"sfx"
