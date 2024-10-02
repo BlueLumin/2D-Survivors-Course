@@ -4,6 +4,7 @@ var options_scene = preload("res://scenes/ui/options_menu.tscn")
 
 
 func _ready() -> void:
+	get_tree().paused = false
 	%PlayButton.pressed.connect(on_play_pressed)
 	%OptionsButton.pressed.connect(on_options_pressed)
 	%QuitButton.pressed.connect(on_quit_pressed)
