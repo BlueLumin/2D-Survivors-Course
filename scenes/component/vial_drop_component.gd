@@ -17,17 +17,17 @@ func on_died():
 		adjusted_drop_percect += (0.10 * experience_gain_upgrade_count)
 		adjusted_drop_percect = min(1, adjusted_drop_percect)
 	
-	if randf() > adjusted_drop_percect: # If random chance is not within drop percent chance, then return
+	if randf() > adjusted_drop_percect: # If random chance is not within drop percent chance, then return.
 		return
 	
-	if vial_scene == null: # If there is no vial scene, then don't proceed
+	if vial_scene == null: # If there is no vial scene, then don't proceed.
 		return
 	
-	if not owner is Node2D: # Check that the owner is a Node2D
+	if not owner is Node2D: # Check that the owner is a Node2D.
 		return
 	
-	var spawn_position = (owner as Node2D).global_position # Get the owner's position (the enemy's position)
-	var vial_instance = vial_scene.instantiate() as Node2D # Create the instance in a variable
-	var entities_layer = get_tree().get_first_node_in_group("entities_layer") # Get the layer which the entites are instanced under
-	entities_layer.add_child(vial_instance) # Instance the vial
-	vial_instance.global_position = spawn_position # Move the vial to the enemy's position
+	var spawn_position = (owner as Node2D).global_position # Get the owner's position (the enemy's position).
+	var vial_instance = vial_scene.instantiate() as Node2D # Create the instance in a variable.
+	var entities_layer = get_tree().get_first_node_in_group("entities_layer") # Get the layer which the entites are instanced under.
+	entities_layer.add_child(vial_instance) # Instance the vial.
+	vial_instance.global_position = spawn_position # Move the vial to the enemy's position.

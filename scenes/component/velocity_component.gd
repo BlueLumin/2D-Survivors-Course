@@ -21,7 +21,7 @@ func accelerate_to_player():
 
 
 func accelerate_in_direction(direction: Vector2):
-	var desired_velocity = direction * max_speed # The velocity (including the direction) we want to reach
+	var desired_velocity = direction * max_speed # The velocity (including the direction) we want to reach.
 	velocity = velocity.lerp(desired_velocity, 1 - exp(-acceleration * get_physics_process_delta_time()))
 
 
@@ -32,4 +32,4 @@ func decelerate():
 func move(character_body: CharacterBody2D):
 	character_body.velocity = velocity
 	character_body.move_and_slide()
-	velocity = character_body.velocity # Update our internal velocity based on the character body's velocity
+	velocity = character_body.velocity # Update our internal velocity based on the character body's velocity.

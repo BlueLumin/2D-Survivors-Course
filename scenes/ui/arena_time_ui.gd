@@ -14,4 +14,4 @@ func _process(delta: float) -> void:
 func format_seconds_to_string(seconds : float):
 	var minutes = floor(seconds / 60)
 	var remaining_seconds = seconds - (minutes * 60)
-	return ("%02d" % minutes) + ":" + ("%02d" % floor(remaining_seconds)) # Using the % formats the string (see documentation) and forces there to be two decimal places
+	return ("%02d" % minutes) + ":" + ("%02d" % floor(remaining_seconds)) # Using % formats the string (see documentation) and forces there to be two decimal places.

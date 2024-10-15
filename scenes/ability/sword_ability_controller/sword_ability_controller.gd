@@ -23,7 +23,7 @@ func on_timer_timout():
 		return
 	
 	var enemies = get_tree().get_nodes_in_group("enemy")
-	enemies = enemies.filter(func(enemy : Node2D): # The filter func will filter the array to only include enemies that are within the MAX_RANGE reletive to the player's position
+	enemies = enemies.filter(func(enemy : Node2D): # The filter func will filter the array to only include enemies that are within the MAX_RANGE relative to the player's position.
 		return enemy.global_position.distance_squared_to(player.global_position) < pow(MAX_RANGE, 2)
 	)
 	

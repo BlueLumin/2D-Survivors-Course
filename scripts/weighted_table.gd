@@ -1,7 +1,7 @@
 class_name WeightedTable
 
 var items : Array[Dictionary] = []
-var weight_sum = 0 # The total sum of all items weight
+var weight_sum = 0 # The total sum of all the item's weight.
 
 
 func add_item(item, weight: int):
@@ -24,7 +24,7 @@ func pick_item(exclude: Array = []):
 		adjusted_weight_sum = 0
 		for item in items:
 			if item["item"] in exclude:
-				continue # stops the execution for this item in the loop (goes to the next item)
+				continue # Stops the execution for this item in the loop (goes to the next item).
 			adjusted_items.append(item)
 			adjusted_weight_sum += item["weight"]
 	

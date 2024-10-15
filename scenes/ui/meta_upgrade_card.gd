@@ -24,7 +24,7 @@ func set_meta_upgrade(upgrade : MetaUpgrade):
 
 func update_progress():
 	var current_quantity = 0 
-	if MetaProgression.save_data["meta_upgrades"].has(upgrade.id): # Check if upgrade is in save
+	if MetaProgression.save_data["meta_upgrades"].has(upgrade.id): # Check if upgrade is in save.
 		current_quantity = MetaProgression.save_data["meta_upgrades"][upgrade.id]["quantity"]
 	
 	var is_maxed = current_quantity >= upgrade.max_quantity
@@ -32,8 +32,8 @@ func update_progress():
 	var percent = currency / upgrade.experience_cost
 	percent = min(percent, 1)
 	progress_bar.value = percent
-	purchase_button.disabled = percent < 1 or is_maxed # Disable the button if at max quantity or not enough currency
-	if is_maxed: # If reached max quantity, then disable button and change the text
+	purchase_button.disabled = percent < 1 or is_maxed # Disable the button if at max quantity or not enough currency.
+	if is_maxed: # If reached max quantity, then disable button and change the text.
 		purchase_button.text = "Max"
 	progress_label.text = str(currency) + "/" + str(upgrade.experience_cost)
 	count_label.text = "x%d" % current_quantity

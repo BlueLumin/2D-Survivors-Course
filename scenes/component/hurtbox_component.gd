@@ -29,7 +29,7 @@ func on_area_entered(other_area : Area2D):
 	
 	var format_string = "%0.1f"
 	if round(hitbox_component.damage) == hitbox_component.damage:
-		format_string = "%0.0f" # If the rounded number is equal to the actual number, then it's a whole int and shouldn't have a decimal place
+		format_string = "%0.0f" # If the rounded number is equal to the actual number, then it's a whole int and shouldn't have a decimal place.
 	floating_text.start(format_string % hitbox_component.damage)
 	
 	hit.emit()

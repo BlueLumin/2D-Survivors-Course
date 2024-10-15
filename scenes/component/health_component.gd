@@ -27,7 +27,7 @@ func heal(heal_amount: int):
 func get_health_percent():
 	if max_health <= 0:
 		return 0
-	return min(current_health / max_health, 1) # min() returns the smallest number. This clamps the number so it can't be above 1 (100%)
+	return min(current_health / max_health, 1) # min() returns the smallest number. This clamps the number so it can't be above 1 (100%).
 
 
 func check_death():

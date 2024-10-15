@@ -34,8 +34,8 @@ func _physics_process(delta: float) -> void:
 	velocity_component.accelerate_in_direction(direction)
 	velocity_component.move(self)
 	
-	# Player animations
-	if movement_vector.x != 0 or movement_vector.y != 0: # Check is moving
+	# Player animations:
+	if movement_vector.x != 0 or movement_vector.y != 0: # Check is moving.
 		animation_player.play("walk")
 	else:
 		animation_player.play("RESET")
@@ -44,7 +44,7 @@ func _physics_process(delta: float) -> void:
 		visuals.scale.x = sign(movement_vector.x)
 
 
-func get_movement_vector(): # Get the direction based on input
+func get_movement_vector(): # Get the direction based on input.
 	var x_movement = Input.get_action_strength("move_right") - Input.get_action_strength("move_left")
 	var y_movement = Input.get_action_strength("move_down") - Input.get_action_strength("move_up")
 	return Vector2(x_movement, y_movement)

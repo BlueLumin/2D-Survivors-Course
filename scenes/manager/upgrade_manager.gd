@@ -3,7 +3,7 @@ extends Node
 @export var experience_manager : ExperienceManager
 @export var upgrade_screen_scene : PackedScene
 
-var current_upgrades = {} # The upgrades the player currently has active
+var current_upgrades = {} # The upgrades the player currently has active.
 var upgrade_pool: WeightedTable = WeightedTable.new()
 
 var upgrade_axe = preload("res://resources/upgrades/axe.tres")
@@ -33,13 +33,13 @@ func update_upgrade_pool(chosen_upgrade: AbilityUpgrade):
 
 
 func apply_upgrade(upgrade : AbilityUpgrade):
-	var has_upgrade = current_upgrades.has(upgrade.id) # Return true or false depending on whether or not the chosen upgrade is already an active upgrade
-	if !has_upgrade: # If we don't have the upgrade, add it to the list of active upgrades with nested keys for the resource and quantity
+	var has_upgrade = current_upgrades.has(upgrade.id) # Return true or false depending on whether or not the chosen upgrade is already an active upgrade.
+	if !has_upgrade: # If we don't have the upgrade, add it to the list of active upgrades with nested keys for the resource and quantity.
 		current_upgrades[upgrade.id] = {
 			"resource": upgrade,
 			"quantity": 1
 		}
-	else: # If we already have the upgrade, then add 1 to the "quantity" nested key
+	else: # If we already have the upgrade, then add 1 to the "quantity" nested key.
 		current_upgrades[upgrade.id]["quantity"] += 1
 	
 	if upgrade.max_quantity > 0:
@@ -52,12 +52,12 @@ func apply_upgrade(upgrade : AbilityUpgrade):
 
 
 func pick_upgrades():
-	var chosen_upgrades : Array[AbilityUpgrade] = [] # An empty Array
-	for i in 2: # Choose two random upgrades to display
+	var chosen_upgrades : Array[AbilityUpgrade] = [] # An empty Array.
+	for i in 2: # Choose two random upgrades to display.
 		if upgrade_pool.items.size() == chosen_upgrades.size():
-			break # If there are no more upgrades to chose from, then break out of the loop
+			break # If there are no more upgrades to chose from, then break out of the loop.
 		var chosen_upgrade = upgrade_pool.pick_item(chosen_upgrades)
-		chosen_upgrades.append(chosen_upgrade) # Add each chosen upgrade
+		chosen_upgrades.append(chosen_upgrade) # Add each chosen upgrade.
 	
 	return chosen_upgrades
 
